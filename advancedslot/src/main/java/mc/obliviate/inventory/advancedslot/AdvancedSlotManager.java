@@ -110,8 +110,13 @@ public class AdvancedSlotManager {
                             aSlot.getPickupAction().accept(e, getCopyOfItemWithAmount(e.getCurrentItem(), 1));
                             break;
                         case PICKUP_HALF:
-                            final int amount = e.getCurrentItem().getAmount() / 2 + (e.getCurrentItem().getAmount() % 2 == 0 ? 0 : 1);
-                            aSlot.getPickupAction().accept(e, getCopyOfItemWithAmount(e.getCurrentItem(), amount));
+                            int amount = e.getCurrentItem().getAmount();
+                            if (amount == 1) {
+                                aSlot.getPickupAction().accept(e, e.getCurrentItem());
+                            } else {
+                                final int fixed = amount / 2 + (amount % 2 == 0 ? 0 : 1);
+                                aSlot.getPickupAction().accept(e, getCopyOfItemWithAmount(e.getCurrentItem(), fixed));
+                            }
                             break;
                         //case PICKUP_SOME:
                         case MOVE_TO_OTHER_INVENTORY:
